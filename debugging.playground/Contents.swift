@@ -15,41 +15,40 @@ class Foo {
     var wordB : String!
     
     init (words: [String?]) {
-        wordA = words[0]?
-        wordB = words[1]?
+        wordA = words[0]
+        wordB = words[1]
     }
     
 //: [EXPLAIN YOUR ANSWER TO Q1 HERE]
-    
-
-    
+// "words" has already have element type as option in constructor signature as `words: [String?]`, so we don't need to add options in each assignment.
 //: ## Q2: Variable Types and Function Types
 //: Why does the compiler dislike the for loop? Also, what should we return?
     
-    func arePalindromes(words: [String]) -> Bool! {
+    class func arePalindromes(words: [String]) -> Bool! {
         let reversedWords = words.map() {String($0.characters.reverse())}
-        var numElements = words.count
+        let numElements = words.count
         
-        for let i = 0; i < numElements; i++ {
+        for var i = 0; i < numElements; i++ {
             if words[i] != reversedWords[i] {
                 return false
             }
         }
         
-        return nil
+        return true
     }
     
 //: [EXPLAIN YOUR ANSWER TO Q2 HERE]
-    
-    
+// variable "numElements" won't change in function body. so use "let" as immutable.
+// variable "i" will change every interation in for loop. so use "var" as mutable.
+// Base on logic of function, if characters are the same in original string and reverse string, we should return "true" instead of "nil".
     
 //: ## Q3: More functions, and object initialization
 //: The method should be returning true or false -- what's wrong?
 //: Are we initializing the dictionary correctly?
-    func isAnagram(wordA: String, wordB: String) -> Bool? {
-        var countLetters : [Character : Int]
-        var lenA = wordA.characters.count
-        var lenB = wordB.characters.count
+    class func isAnagram(wordA: String, wordB: String) -> Bool? {
+        var countLetters : [Character : Int] = [:]
+        let lenA = wordA.characters.count
+        let lenB = wordB.characters.count
         
         if lenA != lenB {
             return false
@@ -75,18 +74,19 @@ class Foo {
             }
         }
         
-        for (letter, count) in countLetters {
+        for (_, count) in countLetters {
             if count != 0 {
                 return false
             }
         }
         
-        return nil
+        return true
     }
 }
 
 //: [EXPLAIN YOUR ANSWER TO Q3 HERE]
-
+// After the number of every character are the same in both wordA and wordB, we should return true by the definition of Anagram.
+// No, we didn't initializing the dictionary correctly, we need initialize empty dictionary using the empty dictionary literal ([:]).
 
 //: **Do not** change anything below.
 //: You should be able to call the methods as is.
